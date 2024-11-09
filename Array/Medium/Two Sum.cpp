@@ -1,4 +1,4 @@
-// Better Approch
+// Optimal Approch
 
 class Solution
 {
