@@ -44,3 +44,32 @@ int longestSubarrayWithSumK(vector<int> a, long long k)
     }
     return len;
 }
+
+// Better Approch (can have zeros)
+
+#include <map>
+int longestSubarrayWithSumK(vector<int> a, long long k)
+{
+    // Write your code here
+    int len = 0;
+    long long sum = 0;
+    map<long long, int> preSum;
+    for (int i = 0; i < a.size(); i++)
+    {
+        sum += a[i];
+        if (sum == k)
+        {
+            len = max(len, i + 1);
+        }
+        long long rem = sum - k;
+        if (preSum.find(rem) != preSum.end())
+        {
+            len = max(len, i - preSum[rem]);
+        }
+        if (preSum.find(sum) == preSum.end())
+        {
+            preSum[sum] = i;
+        };
+    }
+    return len;
+}
