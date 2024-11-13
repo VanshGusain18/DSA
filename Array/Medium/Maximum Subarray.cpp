@@ -75,3 +75,35 @@ public:
         return max;
     }
 };
+
+// To print the sub array
+
+class Solution
+{
+public:
+    int maxSubArray(vector<int> &nums)
+    {
+        int curr = INT_MIN, max = INT_MIN;
+        int n = nums.size(), start = -1, tstart = -1, end = -1;
+        for (int i = 0; i < n; i++)
+        {
+            if (curr < 0)
+            {
+                curr = 0;
+                tstart = i;
+            }
+            curr += nums[i];
+            if (curr > max)
+            {
+                max = curr;
+                star = tstart;
+                end = i;
+            }
+        }
+        for (int i = start; i <= end; i++)
+        {
+            cout << nums[i] << " ";
+        }
+        return max;
+    }
+};
