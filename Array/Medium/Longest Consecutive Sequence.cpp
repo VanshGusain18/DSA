@@ -36,3 +36,32 @@ public:
         return maxLen;
     }
 };
+
+// Better Approch
+
+class Solution
+{
+public:
+    int longestConsecutive(vector<int> &nums)
+    {
+        int n = nums.size(), len = 1, maxLen = 1, x = INT_MIN;
+        if (!n)
+            return 0;
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < n; i++)
+        {
+            if (nums[i] - 1 == x)
+            {
+                len++;
+                x = nums[i];
+            }
+            else if (nums[i] != x)
+            {
+                len = 1;
+                x = nums[i];
+            }
+            maxLen = max(len, maxLen);
+        }
+        return maxLen;
+    }
+};
