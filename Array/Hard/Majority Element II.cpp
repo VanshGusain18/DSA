@@ -32,3 +32,32 @@ public:
         return list;
     }
 };
+
+// Better Approch
+
+class Solution
+{
+public:
+    vector<int> majorityElement(vector<int> &nums)
+    {
+        int n = nums.size();
+        vector<int> list;
+        map<int, int> mpp;
+        for (int i = 0; i < n; i++)
+        {
+            mpp[nums[i]]++;
+            if (list.size() == 0 || list[0] != nums[i])
+            {
+                if (mpp[nums[i]] > n / 3)
+                {
+                    list.push_back(nums[i]);
+                }
+                if (list.size() == 2)
+                {
+                    return list;
+                }
+            }
+        }
+        return list;
+    }
+};
