@@ -34,3 +34,37 @@ public:
         return result;
     }
 }
+
+// Better Approch
+
+class Solution
+{
+public:
+    vector<int> findTwoElement(vector<int> &arr)
+    {
+        // code here
+        int n = arr.size();
+        vector<int> result = {-1, -1};
+        int hash[n + 1] = {0};
+        for (int i = 0; i < n; i++)
+        {
+            hash[arr[i]]++;
+        }
+        for (int i = 1; i <= n; i++)
+        {
+            if (hash[i] == 2)
+            {
+                result[0] = i;
+            }
+            else if (hash[i] == 0)
+            {
+                result[1] = i;
+            }
+            if (result[0] != -1 && result[1] != -1)
+            {
+                break;
+            }
+        }
+        return result;
+    }
+}
