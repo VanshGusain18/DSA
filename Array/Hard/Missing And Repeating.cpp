@@ -102,3 +102,60 @@ public:
         return result;
     }
 }
+
+// Optimal Approch (XOR)
+
+class Solution
+{
+public:
+    vector<int> findTwoElement(vector<int> &arr)
+    {
+        // code here
+        int n = arr.size();
+        int xr = 0;
+        for (int i = 0; i < n; i++)
+        {
+            xr = xr ^ arr[i];
+            xr = xr ^ (i + 1);
+        }
+        int bitNo = 0;
+        while (1)
+        {
+            if ((xr & (1 << bitNo)) != 0)
+            {
+                break;
+            }
+            bitNo++;
+        }
+        int zero = 0, one = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if ((arr[i] & (1 << bitNo)) != 0)
+            {
+                one = one ^ arr[i];
+            }
+            else
+            {
+                zero = zero ^ arr[i];
+            }
+            if (((i + 1) & (1 << bitNo)) != 0)
+            {
+                one = one ^ (i + 1);
+            }
+            else
+            {
+                zero = zero ^ (i + 1);
+            }
+        }
+        int cnt = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i] == zero)
+                cnt++;
+        }
+        if (cnt == 2)
+            return {zero, one};
+        else
+            return {one, zero};
+    }
+}
