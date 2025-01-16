@@ -68,3 +68,37 @@ public:
         return result;
     }
 }
+
+// Optimal Approch (Maths)
+
+class Solution
+{
+public:
+    vector<int> findTwoElement(vector<int> &arr)
+    {
+        // code here
+        int n = arr.size();
+        vector<int> result(2, -1);
+        long long tsum = 0, tsumsq = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            tsum += arr[i];
+            tsumsq += (long long)arr[i] * arr[i];
+        }
+
+        long long sum = (long long)n * (n + 1) / 2;
+        long long sumsq = (long long)n * (n + 1) * (2 * n + 1) / 6;
+
+        long long diff = tsum - sum;
+        long long diffsq = tsumsq - sumsq;
+
+        long long r = (diff + diffsq / diff) / 2;
+        long long m = (diffsq / diff - diff) / 2;
+
+        result[0] = (int)r;
+        result[1] = (int)m;
+
+        return result;
+    }
+}
