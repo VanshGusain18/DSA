@@ -3,42 +3,50 @@
 class Solution
 {
 public:
-    bool possible(vector<int> &arr, int day, int m, int k)
+    int findmin(const vector<int> &bloomDay, int n)
     {
-        int n = arr.size();
-        int cnt = 0;
-        int noOfB = 0;
-        for (int i = 0; i < n; i++)
+        int mini = bloomDay[0];
+        for (int i = 1; i < n; ++i)
         {
-            if (arr[i] <= day)
-            {
-                cnt++;
-            }
-            else
-            {
-                noOfB += (cnt / k);
-                cnt = 0;
-            }
+            mini = min(mini, bloomDay[i]);
         }
-        noOfB += (cnt / k);
-        return noOfB >= m;
+        return mini;
     }
-    int roseGarden(vector<int> arr, int k, int m)
-    {
-        long long val = m * 1ll * k * 1ll;
-        int n = arr.size();
-        if (val > n)
-            return -1;
-        int mini = INT_MAX, maxi = INT_MIN;
-        for (int i = 0; i < n; i++)
-        {
-            mini = min(mini, arr[i]);
-            maxi = max(maxi, arr[i]);
-        }
 
+    int findmax(const vector<int> &bloomDay, int n)
+    {
+        int maxi = bloomDay[0];
+        for (int i = 1; i < n; ++i)
+        {
+            maxi = max(maxi, bloomDay[i]);
+        }
+        return maxi;
+    }
+
+    int minDays(vector<int> &bloomDay, int m, int k)
+    {
+        int n = bloomDay.size();
+        if (m * k > n)
+            return -1;
+        int mini = findmin(bloomDay, n);
+        int maxi = findmax(bloomDay, n);
         for (int i = mini; i <= maxi; i++)
         {
-            if (possible(arr, i, m, k))
+            int buq = 0, cnt = 0;
+            for (int j = 0; j < n; j++)
+            {
+                if (bloomDay[j] <= i)
+                {
+                    cnt++;
+                }
+                else
+                {
+                    buq += cnt / k;
+                    cnt = 0;
+                }
+            }
+            buq += cnt / k;
+            if (buq >= m)
                 return i;
         }
         return -1;
@@ -50,49 +58,67 @@ public:
 class Solution
 {
 public:
-    bool possible(vector<int> &arr, int day, int m, int k)
+    int findmin(const vector<int> &bloomDay, int n)
     {
-        int n = arr.size();
-        int cnt = 0;
-        int noOfB = 0;
+        int mini = bloomDay[0];
+        for (int i = 1; i < n; ++i)
+        {
+            mini = min(mini, bloomDay[i]);
+        }
+        return mini;
+    }
+
+    int findmax(const vector<int> &bloomDay, int n)
+    {
+        int maxi = bloomDay[0];
+        for (int i = 1; i < n; ++i)
+        {
+            maxi = max(maxi, bloomDay[i]);
+        }
+        return maxi;
+    }
+
+    int noofbuq(vector<int> &bloomDay, int mid, int m, int k)
+    {
+        int buq = 0, cnt = 0;
+        int n = bloomDay.size();
         for (int i = 0; i < n; i++)
         {
-            if (arr[i] <= day)
+            if (bloomDay[i] <= mid)
             {
                 cnt++;
             }
             else
             {
-                noOfB += (cnt / k);
+                buq = buq + cnt / k;
                 cnt = 0;
             }
         }
-        noOfB += (cnt / k);
-        return noOfB >= m;
+        buq = buq + cnt / k;
+        return buq;
     }
-    int roseGarden(vector<int> arr, int k, int m)
-    {
-        long long val = m * 1ll * k * 1ll;
-        int n = arr.size();
-        if (val > n)
-            return -1;
-        int mini = INT_MAX, maxi = INT_MIN;
-        for (int i = 0; i < n; i++)
-        {
-            mini = min(mini, arr[i]);
-            maxi = max(maxi, arr[i]);
-        }
 
-        int low = mini, high = maxi;
+    int minDays(vector<int> &bloomDay, int m, int k)
+    {
+        int n = bloomDay.size();
+        long x = m;
+        x *= k;
+        if (x > n)
+            return -1;
+        int low = findmin(bloomDay, n);
+        int high = findmax(bloomDay, n);
         while (low <= high)
         {
             int mid = (low + high) / 2;
-            if (possible(arr, mid, m, k))
+            int nobq = noofbuq(bloomDay, mid, m, k);
+            if (nobq >= m)
             {
                 high = mid - 1;
             }
             else
+            {
                 low = mid + 1;
+            }
         }
         return low;
     }
