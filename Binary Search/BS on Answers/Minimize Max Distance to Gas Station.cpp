@@ -54,3 +54,43 @@ double minimiseMaxDistance(vector<int> &arr, int k)
     }
     return pq.top().first;
 }
+
+//Optimal Solution
+
+#include <bits/stdc++.h>
+
+int placestation(double dist, vector<int>& arr)
+{
+	int n=arr.size();
+	int cnt=0;
+	for(int i=0; i<n-1; i++)
+	{
+		int inbtw=(arr[i+1]-arr[i])/dist;
+		if((inbtw * dist)==arr[i+1]-arr[i])
+		{
+			inbtw--;
+		}
+		cnt+=inbtw;
+	}
+	return cnt;
+}
+
+double minimiseMaxDistance(vector<int> &arr, int k){
+	// Write your code here.	
+	int n=arr.size();
+	double low=0,high=0;
+	for(int i=0; i<n-1; i++)
+	{
+		high=max((double)arr[i+1]-arr[i],high);
+	}
+	double diff=1e-6;
+	while(high-low>diff)
+	{
+		double mid=(high+low)/2.0;
+		int station=placestation(mid, arr);
+		if(station>k)
+			low=mid;
+		else high=mid;
+	}
+	return high;
+}
