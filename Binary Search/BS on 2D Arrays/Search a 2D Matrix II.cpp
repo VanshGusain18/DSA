@@ -1,4 +1,4 @@
-// Better Aproch
+// Optimal Aproch
 
 class Solution
 {
