@@ -1,4 +1,4 @@
-// Approch 1
+// Brute Approch
 
 class Solution
 {
@@ -25,7 +25,7 @@ public:
     }
 };
 
-// Approch 2
+// Optimal Approch
 
 class Solution
 {
