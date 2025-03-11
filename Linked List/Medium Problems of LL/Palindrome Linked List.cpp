@@ -21,3 +21,32 @@ public:
         return left >= right;
     }
 };
+
+// Stack Approch
+
+class Solution
+{
+public:
+    bool isPalindrome(ListNode *head)
+    {
+        stack<int> stk;
+        ListNode *temp = head;
+        while (temp != nullptr)
+        {
+            stk.push(temp->val);
+            temp = temp->next;
+        }
+        temp = head;
+        while (temp != nullptr)
+        {
+            if (temp->val == stk.top())
+            {
+                temp = temp->next;
+                stk.pop();
+            }
+            else
+                return false;
+        }
+        return true;
+    }
+};
