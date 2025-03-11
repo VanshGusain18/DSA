@@ -50,3 +50,46 @@ public:
         return true;
     }
 };
+
+// Two Pointer Approch
+
+class Solution
+{
+public:
+    ListNode *reverse(ListNode *head)
+    {
+        ListNode *prev = nullptr;
+        ListNode *curr = head;
+        while (curr != nullptr)
+        {
+            ListNode *next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    bool isPalindrome(ListNode *head)
+    {
+        ListNode *slow = head;
+        ListNode *fast = head;
+        while (fast != nullptr && fast->next != nullptr)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode *rev = reverse(slow);
+        ListNode *temp = head;
+        while (rev != nullptr)
+        {
+            if (rev->val != temp->val)
+            {
+                return false;
+            }
+            rev = rev->next;
+            temp = temp->next;
+        }
+        return true;
+    }
+};
