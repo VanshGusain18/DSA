@@ -31,3 +31,34 @@ public:
         return 0;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    // Function to find the length of a loop in the linked list.
+    int countNodesinLoop(Node *head)
+    {
+        // Code here
+        Node *slow = head;
+        Node *fast = head;
+        while (fast != nullptr && fast->next != nullptr)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast)
+            {
+                int cnt = 1;
+                slow = slow->next;
+                while (slow != fast)
+                {
+                    slow = slow->next;
+                    cnt++;
+                }
+                return cnt;
+            }
+        }
+        return 0;
+    }
+};
