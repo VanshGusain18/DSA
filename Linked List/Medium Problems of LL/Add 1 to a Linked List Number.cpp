@@ -52,3 +52,36 @@ Node *addOne(Node *head)
     }
     return reverseList(rev);
 }
+
+// Optimal Approch
+
+int helper(Node *head)
+{
+    if (head == nullptr)
+    {
+        return 1;
+    }
+    else
+    {
+        head->data += helper(head->next);
+        if (head->data < 10)
+        {
+            return 0;
+        }
+        head->data = 0;
+        return 1;
+    }
+}
+
+Node *addOne(Node *head)
+{
+    // Your Code here
+    int carry = helper(head);
+    if (carry)
+    {
+        Node *newNode = new Node(1);
+        newNode->next = head;
+        return newNode;
+    }
+    return head;
+}
