@@ -29,3 +29,70 @@ public:
         return head;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    ListNode *getKthNode(ListNode *temp, int k)
+    {
+        k -= 1;
+        while (temp != nullptr && k > 0)
+        {
+            k--;
+            temp = temp->next;
+        }
+        return temp;
+    }
+
+    ListNode *reverseLinkedList(ListNode *head)
+    {
+        ListNode *prev = nullptr;
+        ListNode *curr = head;
+        while (curr != nullptr)
+        {
+            ListNode *nxt = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nxt;
+        }
+        return prev;
+    }
+
+    ListNode *reverseKGroup(ListNode *head, int k)
+    {
+        ListNode *temp = head;
+        ListNode *prevLast = nullptr;
+
+        while (temp != nullptr)
+        {
+            ListNode *kThNode = getKthNode(temp, k);
+            if (kThNode == nullptr)
+            {
+                if (prevLast)
+                {
+                    prevLast->next = temp;
+                }
+                break;
+            }
+
+            ListNode *nextNode = kThNode->next;
+            kThNode->next = nullptr;
+            ListNode *reversedHead = reverseLinkedList(temp);
+            if (temp == head)
+            {
+                head = reversedHead;
+            }
+            else
+            {
+                prevLast->next = reversedHead;
+            }
+
+            prevLast = temp;
+            temp = nextNode;
+        }
+
+        return head;
+    }
+};
