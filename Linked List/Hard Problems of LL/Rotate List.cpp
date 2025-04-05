@@ -48,7 +48,7 @@ public:
         {
             tail = tail->next;
         }
-        tail->next = head;
+        tail->nextt = head;
         head = nextNode;
         return head;
     }
