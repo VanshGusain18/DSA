@@ -48,3 +48,28 @@ public:
         return cnt;
     }
 };
+
+// Better Approch
+
+class Solution
+{
+public:
+    int countGoodNumbers(long long n)
+    {
+        const int MOD = 1e9 + 7;
+        long long cnt = 1;
+        for (int i = 0; i < n; i++)
+        {
+            if (i % 2 == 0)
+            {
+                cnt *= 5;
+            }
+            else
+            {
+                cnt *= 4;
+            }
+            cnt %= MOD;
+        }
+        return cnt;
+    }
+};
