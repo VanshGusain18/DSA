@@ -73,3 +73,43 @@ public:
         return cnt;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    const int MOD = 1e9 + 7;
+
+    long long myPow(long long x, long long n)
+    {
+        long long ans = 1.0;
+        long nn = n;
+        x %= MOD;
+        if (nn < 0)
+            nn = nn * -1;
+        while (nn != 0)
+        {
+            if (nn % 2 == 0)
+            {
+                x = x * x % MOD;
+                nn = nn / 2;
+            }
+            else
+            {
+                ans = ans * x % MOD;
+                nn--;
+            }
+        }
+        if (n < 0)
+            return 1 / ans;
+        return ans;
+    }
+
+    int countGoodNumbers(long long n)
+    {
+        long long odd = n / 2;
+        long long even = n / 2 + n % 2;
+        return myPow(5, even) * myPow(4, odd) % MOD;
+    }
+};
