@@ -27,3 +27,36 @@ public:
         return fn(arr, k, 0, 0);
     }
 };
+
+// Itrative Approch
+
+class Solution
+{
+public:
+    int numSubseq(vector<int> &nums, int target)
+    {
+        int n = nums.size();
+        int count = 0;
+
+        for (int mask = 1; mask < (1 << n); ++mask)
+        {
+            int mini = INT_MAX, maxi = INT_MIN;
+
+            for (int i = 0; i < n; ++i)
+            {
+                if (mask & (1 << i))
+                {
+                    mini = min(mini, nums[i]);
+                    maxi = max(maxi, nums[i]);
+                }
+            }
+
+            if (mini + maxi <= target)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
