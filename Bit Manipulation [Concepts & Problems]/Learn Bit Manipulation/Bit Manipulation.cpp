@@ -54,3 +54,19 @@ public:
         cout << get << ' ' << set << ' ' << clr;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    void bitManipulation(int num, int i)
+    {
+        // your code here
+        int mask = 1 << (i - 1);
+        int get = (num & mask) ? 1 : 0;
+        int set = num | mask;
+        int clr = num & (~mask);
+        cout << get << " " << set << " " << clr;
+    }
+};
