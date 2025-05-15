@@ -71,3 +71,35 @@ public:
         return ans;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    int trap(vector<int> &height)
+    {
+        int ans = 0, n = height.size(), lmax = INT_MIN, rmax = INT_MIN;
+        int l = 0, r = n - 1;
+        while (l < r)
+        {
+            if (height[l] <= height[r])
+            {
+                if (height[l] < lmax)
+                    ans += lmax - height[l];
+                else
+                    lmax = height[l];
+                l++;
+            }
+            else
+            {
+                if (height[r] < rmax)
+                    ans += rmax - height[r];
+                else
+                    rmax = height[r];
+                r--;
+            }
+        }
+        return ans;
+    }
+};
