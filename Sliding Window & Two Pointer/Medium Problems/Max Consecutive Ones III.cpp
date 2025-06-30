@@ -25,3 +25,29 @@ public:
         return res;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    int longestOnes(vector<int> &nums, int k)
+    {
+        int res = 0, l = 0, r = 0, z = 0;
+        while (r < nums.size())
+        {
+            if (!nums[r])
+                z++;
+            while (z > k)
+            {
+                if (!nums[l])
+                    z--;
+                l++;
+            }
+            int len = r - l + 1;
+            res = max(res, len);
+            r++;
+        }
+        return res;
+    }
+};
