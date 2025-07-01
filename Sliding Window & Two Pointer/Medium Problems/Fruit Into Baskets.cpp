@@ -52,3 +52,34 @@ public:
         return res;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    int totalFruit(vector<int> &fruits)
+    {
+        int n = fruits.size(), res = 0;
+        unordered_map<int, int> mp;
+        int l = 0, r = 0;
+        while (r < n)
+        {
+            mp[fruits[r]]++;
+            if (mp.size() > 2)
+            {
+                mp[fruits[l]]--;
+                if (!mp[fruits[l]])
+                    mp.erase(fruits[l]);
+                l++;
+            }
+            else
+            {
+                int len = r - l + 1;
+                res = max(res, len);
+            }
+            r++;
+        }
+        return res;
+    }
+};
