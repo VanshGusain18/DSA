@@ -51,3 +51,46 @@ public:
         return ans;
     }
 };
+
+// Optimal Solution
+
+class Solution
+{
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>> &mat)
+    {
+        int r = mat.size(), c = mat[0].size();
+        queue<pair<pair<int, int>, int>> q;
+        vector<vector<int>> ans(r, vector<int>(c));
+        vector<vector<int>> vis(r, vector<int>(c, 0));
+        for (int i = 0; i < r; i++)
+        {
+            for (int j = 0; j < c; j++)
+            {
+                if (mat[i][j] == 0)
+                {
+                    q.push({{i, j}, 0});
+                    vis[i][j] = 1;
+                }
+            }
+        }
+        int drow[] = {1, 0, -1, 0};
+        int dcol[] = {0, 1, 0, -1};
+        while (!q.empty())
+        {
+            int rcurr = q.front().first.first, ccurr = q.front().first.second, t = q.front().second;
+            q.pop();
+            ans[rcurr][ccurr] = t;
+            for (int i = 0; i < 4; i++)
+            {
+                int nrow = rcurr + drow[i], ncol = ccurr + dcol[i];
+                if (nrow >= 0 && nrow < r && ncol >= 0 && ncol < c && !vis[nrow][ncol])
+                {
+                    vis[nrow][ncol] = 1;
+                    q.push({{nrow, ncol}, t + 1});
+                }
+            }
+        }
+        return ans;
+    }
+};
