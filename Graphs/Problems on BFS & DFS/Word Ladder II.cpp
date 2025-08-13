@@ -1,4 +1,4 @@
-// Brute Approch
+// Brute Approch (dfs)
 
 class Solution
 {
@@ -50,5 +50,68 @@ public:
         int mini = INT_MAX;
         dfs(endWord, res, temp, st, 1, mini, beginWord);
         return res;
+    }
+};
+
+// Optimal Approch (bfs)
+
+class Solution
+{
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
+    {
+        unordered_set<string> st(wordList.begin(), wordList.end());
+        queue<pair<vector<string>, int>> q;
+        q.push({{beginWord}, 1});
+
+        vector<vector<string>> ans;
+        vector<string> wordsToErase;
+
+        while (!q.empty())
+        {
+            int qsize = q.size();
+            wordsToErase.clear();
+
+            for (int k = 0; k < qsize; k++)
+            {
+                auto front = q.front();
+                q.pop();
+
+                vector<string> seq = front.first;
+                int cnt = front.second;
+                string word = seq.back();
+
+                if (word == endWord)
+                {
+                    if (ans.empty() || ans[0].size() == seq.size())
+                    {
+                        ans.push_back(seq);
+                    }
+                    continue;
+                }
+
+                for (int i = 0; i < word.size(); i++)
+                {
+                    char original = word[i];
+                    for (char c = 'a'; c <= 'z'; c++)
+                    {
+                        word[i] = c;
+                        if (st.find(word) != st.end())
+                        {
+                            seq.push_back(word);
+                            q.push({seq, cnt + 1});
+                            seq.pop_back();
+                            wordsToErase.push_back(word);
+                        }
+                    }
+                    word[i] = original;
+                }
+            }
+
+            for (auto &w : wordsToErase)
+                st.erase(w);
+        }
+
+        return ans;
     }
 };
