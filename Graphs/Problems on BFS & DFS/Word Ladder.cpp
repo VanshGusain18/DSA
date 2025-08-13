@@ -1,5 +1,3 @@
-// Brute Approch
-
 class Solution
 {
 public:
