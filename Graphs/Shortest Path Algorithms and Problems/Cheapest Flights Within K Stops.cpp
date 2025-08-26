@@ -34,3 +34,42 @@ public:
         return -1;
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    int findCheapestPrice(int n, vector<vector<int>> &flights, int src, int dst, int k)
+    {
+        vector<vector<pair<int, int>>> adjList(n);
+        for (int i = 0; i < flights.size(); i++)
+        {
+            int from = flights[i][0], to = flights[i][1], ct = flights[i][2];
+            adjList[from].push_back({to, ct});
+        }
+        queue<vector<int>> pq;
+        vector<int> cost(n, 1e9);
+        cost[src] = 0;
+        pq.push({0, src, 0});
+        while (!pq.empty())
+        {
+            int st = pq.front()[0], node = pq.front()[1], ct = pq.front()[2];
+            pq.pop();
+            if (st > k)
+                continue;
+            for (int i = 0; i < adjList[node].size(); i++)
+            {
+                int nnode = adjList[node][i].first, nct = adjList[node][i].second;
+                if (cost[nnode] > ct + nct && st <= k)
+                {
+                    cost[nnode] = ct + nct;
+                    pq.push({st + 1, nnode, ct + nct});
+                }
+            }
+        }
+        if (cost[dst] != 1e9)
+            return cost[dst];
+        return -1;
+    }
+};
