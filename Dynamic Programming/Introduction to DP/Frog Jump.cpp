@@ -73,3 +73,28 @@ public:
         return dp[n - 1];
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    int minCost(vector<int> &height)
+    {
+        // Code here
+        int n = height.size();
+        if (n == 1)
+            return 0;
+        int prev2 = 0;
+        int prev = abs(height[0] - height[1]);
+        for (int i = 2; i < n; i++)
+        {
+            int left = prev + abs(height[i] - height[i - 1]);
+            int right = prev2 + abs(height[i] - height[i - 2]);
+            int curr = min(left, right);
+            prev2 = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+};
