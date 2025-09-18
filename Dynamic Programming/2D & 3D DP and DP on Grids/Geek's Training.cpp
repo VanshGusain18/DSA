@@ -97,3 +97,43 @@ public:
         return fn(arr, dp, n);
     }
 };
+
+// Optimal Approch
+
+class Solution
+{
+public:
+    int fn(vector<vector<int>> &arr, vector<int> &dp, int n)
+    {
+        dp[0] = max(arr[0][1], arr[0][2]);
+        dp[1] = max(arr[0][0], arr[0][2]);
+        dp[2] = max(arr[0][0], arr[0][1]);
+        dp[3] = max({arr[0][0], arr[0][1], arr[0][2]});
+        for (int i = 1; i < n; i++)
+        {
+            vector<int> temp(4);
+            for (int j = 0; j < 4; j++)
+            {
+                int maxi = INT_MIN;
+                for (int k = 0; k < 3; k++)
+                {
+                    if (j != k)
+                    {
+                        int curr = dp[k] + arr[i][k];
+                        maxi = max(maxi, curr);
+                    }
+                }
+                temp[j] = maxi;
+            }
+            dp = temp;
+        }
+        return dp[3];
+    }
+
+    int maximumPoints(vector<vector<int>> &arr)
+    {
+        int n = arr.size();
+        vector<int> dp(4);
+        return fn(arr, dp, n);
+    }
+};
