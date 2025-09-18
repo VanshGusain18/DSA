@@ -59,3 +59,41 @@ public:
         return fn(arr, dp, n - 1, -1);
     }
 };
+
+// Tabulation Approch
+
+class Solution
+{
+public:
+    int fn(vector<vector<int>> &arr, vector<vector<int>> &dp, int n)
+    {
+        dp[0][0] = max(arr[0][1], arr[0][2]);
+        dp[0][1] = max(arr[0][0], arr[0][2]);
+        dp[0][2] = max(arr[0][0], arr[0][1]);
+        dp[0][3] = max({arr[0][0], arr[0][1], arr[0][2]});
+        for (int i = 1; i < n; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                int maxi = INT_MIN;
+                for (int k = 0; k < 3; k++)
+                {
+                    if (j != k)
+                    {
+                        int curr = dp[i - 1][k] + arr[i][k];
+                        maxi = max(maxi, curr);
+                    }
+                }
+                dp[i][j] = maxi;
+            }
+        }
+        return dp[n - 1][3];
+    }
+
+    int maximumPoints(vector<vector<int>> &arr)
+    {
+        int n = arr.size();
+        vector<vector<int>> dp(n, vector<int>(4, -1));
+        return fn(arr, dp, n);
+    }
+};
