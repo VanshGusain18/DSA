@@ -95,3 +95,35 @@ public:
         return mini;
     }
 };
+
+// Memoization Approch
+
+class Solution
+{
+public:
+    int fn(vector<int> &val, vector<int> &wt, vector<vector<int>> &dp, int capacity, int idx)
+    {
+        if (capacity == 0)
+            return 0;
+        if (idx == 0)
+        {
+            return (capacity / wt[0]) * val[0];
+        }
+        if (dp[idx][capacity] != -1)
+            return dp[idx][capacity];
+        int notTaken = fn(val, wt, dp, capacity, idx - 1);
+        int taken = -1e9;
+        if (wt[idx] <= capacity)
+        {
+            taken = val[idx] + fn(val, wt, dp, capacity - wt[idx], idx);
+        }
+        return dp[idx][capacity] = max(notTaken, taken);
+    }
+
+    int knapSack(vector<int> &val, vector<int> &wt, int capacity)
+    {
+        int n = val.size();
+        vector<vector<int>> dp(n, vector<int>(capacity + 1, -1));
+        return fn(val, wt, dp, capacity, n - 1);
+    }
+};
