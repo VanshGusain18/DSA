@@ -127,3 +127,37 @@ public:
         return fn(val, wt, dp, capacity, n - 1);
     }
 };
+
+// Tabulation Method
+
+class Solution
+{
+public:
+    int knapSack(vector<int> &val, vector<int> &wt, int capacity)
+    {
+        int n = val.size();
+        vector<vector<int>> dp(n, vector<int>(capacity + 1, -1e9));
+        for (int i = 0; i < n; i++)
+        {
+            dp[i][0] = 0;
+        }
+        for (int c = 0; c <= capacity; c++)
+        {
+            dp[0][c] = (c / wt[0]) * val[0];
+        }
+        for (int i = 1; i < n; i++)
+        {
+            for (int c = 1; c <= capacity; c++)
+            {
+                int notTaken = dp[i - 1][c];
+                int taken = -1e9;
+                if (wt[i] <= c)
+                {
+                    taken = val[i] + dp[i][c - wt[i]];
+                }
+                dp[i][c] = max(taken, notTaken);
+            }
+        }
+        return dp[n - 1][capacity];
+    }
+};
